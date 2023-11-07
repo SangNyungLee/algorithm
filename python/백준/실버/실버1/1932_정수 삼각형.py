@@ -5,8 +5,10 @@ result = 0
 n = int(sys.stdin.readline().rstrip())
 for i in range(n):
     dp.append(list(map(int, sys.stdin.readline().rstrip().split())))
-if i == 1:
-    print(i)
+if n == 1:
+    print(dp[0][0])
+elif n == 2:
+    print(max(dp[1][0], dp[1][1]) + dp[0][0])
 else:
     dp[1][0] = dp[1][0] + dp[0][0]
     dp[1][1] = dp[1][1] + dp[0][0]
