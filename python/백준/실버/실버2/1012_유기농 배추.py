@@ -36,3 +36,37 @@ for i in range(T):
             if graph[i][j] == 1:
                 count += bfs(i, j)
     print(count)
+
+
+# DFS 풀이방법
+
+# 재귀깊이 설정
+sys.setrecursionlimit(10000)
+input = sys.stdin.readline
+T = int(input())
+for _ in range(T):
+    M, N, K = map(int, input().split())
+    graph = [[0] * (N) for _ in range(M)]
+    result = 0
+    dx = [-1, 1, 0, 0]
+    dy = [0, 0, -1, 1]
+
+    def dfs(x, y):
+        if x < 0 or y < 0 or x >= M or y >= N or graph[x][y] == 0:
+            return False
+        graph[x][y] = 0
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            dfs(nx, ny)
+        return True
+
+    for i in range(K):
+        a, b = map(int, input().split())
+        graph[a][b] = 1
+
+    for i in range(M):
+        for j in range(N):
+            if dfs(i, j):
+                result += 1
+    print(result)
