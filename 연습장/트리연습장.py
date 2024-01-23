@@ -3,32 +3,46 @@ from collections import deque
 
 input = sys.stdin.readline
 
-# 입력값 받기
-R, C = map(int, input().split())
-graph = [list(input().strip()) for _ in range(R)]
+M, N, K = map(int, input().split())
+graph = [[0] * M for _ in range(N)]
 
-# 상하좌우 이동
-dx = [0, 1, 0, -1]
-dy = [1, 0, -1, 0]
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
+for _ in range(K):
+    a, b, c, d = map(int, input().split())
+    for i in range(min(a, c), max(a, c)):
+        for j in range(min(b, d), max(b, d)):
+            graph[i][j] = 1
 
 
-def bfs(x, y):
-    queue = deque()
-    queue.append((x, y, graph[x][y]))
-    max_count = 1
-
+def bfs(i, j):
+    queue.append((i, j))
+    graph[i][j] = 1
+    cnt = 1
     while queue:
-        x, y, path = queue.popleft()
-        max_count = max(max_count, len(path))
-
+        x, y = queue.popleft()
         for i in range(4):
             nx = x + dx[i]
             ny = y + dy[i]
+            if nx < 0 or ny < 0 or nx >= N or ny >= M or graph[nx][ny] == 1:
+                continue
+            if graph[nx][ny] == 0:
+                queue.append((nx, ny))
+                graph[nx][ny] = 1
+                cnt += 1
+    return cnt
 
-            if 0 <= nx < R and 0 <= ny < C and graph[nx][ny] not in path:
-                queue.append((nx, ny, path + graph[nx][ny]))
 
-    return max_count
-
-
-print(bfs(0, 0))
+num = 0  # 영역의 개수
+result = []
+queue = deque()
+for i in range(N):
+    for j in range(M):
+        if graph[i][j] == 0:
+            num += 1
+            result.append(bfs(i, j))
+result.sort()
+print(num)
+for i in result:
+    print(i, end=" ")
