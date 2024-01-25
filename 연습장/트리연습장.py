@@ -3,46 +3,40 @@ from collections import deque
 
 input = sys.stdin.readline
 
-M, N, K = map(int, input().split())
-graph = [[0] * M for _ in range(N)]
+N, M, V = map(int, input().split())
+graph = [[False] * (N + 1) for _ in range(N + 1)]
+visited = [False] * (N + 1)
 
-dx = [-1, 1, 0, 0]
-dy = [0, 0, -1, 1]
-
-for _ in range(K):
-    a, b, c, d = map(int, input().split())
-    for i in range(min(a, c), max(a, c)):
-        for j in range(min(b, d), max(b, d)):
-            graph[i][j] = 1
+for _ in range(M):
+    a, b = map(int, input().split())
+    graph[a][b] = True
+    graph[b][a] = True
 
 
-def bfs(i, j):
-    queue.append((i, j))
-    graph[i][j] = 1
-    cnt = 1
+def dfs(idx):
+    visited[idx] = True
+    print(idx, end=" ")
+    for i in range(1, N + 1):
+        if not visited[i] and graph[idx][i]:
+            dfs(i)
+
+
+def bfs():
+    queue.append(V)
+    visited[V] = True
     while queue:
-        x, y = queue.popleft()
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if nx < 0 or ny < 0 or nx >= N or ny >= M or graph[nx][ny] == 1:
-                continue
-            if graph[nx][ny] == 0:
-                queue.append((nx, ny))
-                graph[nx][ny] = 1
-                cnt += 1
-    return cnt
+        cur = queue.popleft()
+        print(cur, end=" ")
+        for i in range(1, N + 1):
+            if not visited[i] and graph[cur][i]:
+                visited[i] = True
+                queue.append(i)
 
 
-num = 0  # 영역의 개수
-result = []
+dfs(V)
+print()
+
+visited = [False] * (N + 1)
 queue = deque()
-for i in range(N):
-    for j in range(M):
-        if graph[i][j] == 0:
-            num += 1
-            result.append(bfs(i, j))
-result.sort()
-print(num)
-for i in result:
-    print(i, end=" ")
+
+bfs()
