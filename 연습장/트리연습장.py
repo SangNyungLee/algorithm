@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import sys
 from collections import deque
 
@@ -40,3 +41,5 @@ visited = [False] * (N + 1)
 queue = deque()
 
 bfs()
+=======
+>>>>>>> 3f28ada5ca6e04ac9885a4342bdbe4e374ce1cf4
