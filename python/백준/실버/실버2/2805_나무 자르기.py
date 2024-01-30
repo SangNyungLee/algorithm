@@ -18,6 +18,5 @@ while start <= end:
     if count < M:
         end = mid - 1
     else:
-        result = mid
         start = mid + 1
-print(result)
+print(end)
