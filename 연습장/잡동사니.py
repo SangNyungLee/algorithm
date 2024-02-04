@@ -9,4 +9,4 @@ count = count + (n // 3)
 if n % 3 == 0:
     print(count)
 else:
-    print(-1)
+    print(1)
