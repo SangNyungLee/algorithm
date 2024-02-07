@@ -3,10 +3,16 @@ import sys
 input = sys.stdin.readline
 
 n = int(input().rstrip())
-count = n // 5
-n = n % 5
-count = count + (n // 3)
-if n % 3 == 0:
-    print(count)
-else:
-    print(1)
+count = 0
+while True:
+    if n % 5 != 0:
+        n -= 3
+        count += 1
+    elif n % 5 == 0:
+        count += n // 5
+        print(count)
+        break
+
+    if n < 0:
+        print(-1)
+        break
