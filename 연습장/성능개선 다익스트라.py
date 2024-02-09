@@ -40,9 +40,9 @@ def dijkstra(start):
         for i in graph[now]:
             cost = dist + i[1]
             # 현재 노드를 거쳐서, 다른 노드로 이동하는 거리가 더 짧은 경우
-            if cost < distance[i[0]]:
+            if cost < distance[i[0]]:  # i[0] => a 에서 b 번 노드로 갈 때 b임
                 distance[i[0]] = cost
-                heapq.heappush(q, (cost, i[0]))
+                heapq.heappush(q, (cost, i[0]))  # (현재까지의 최단거리, 다음 정점)
 
 
 # 다익스트라 알고리즘을 수행
