@@ -1,42 +1,37 @@
-import heapq
 import sys
+import heapq
 
 input = sys.stdin.readline
 INF = int(1e9)
-start, end = map(int, input().split())
-distance = [INF] * 100001
+n, m = map(int, input().split())
+start = int(input())
+graph = [[] for _ in range(n + 1)]
+distance = [INF] * (n + 1)
+
+for _ in range(m):
+    a, b, c = map(int, input().split())
+    graph[a].append((b, c))
 
 
 def djikstra(start):
     queue = []
     heapq.heappush(queue, (0, start))
     distance[start] = 0
-
     while queue:
         dist, now = heapq.heappop(queue)
-
-        if now == end:
-            break
-
-        if distance[now] < dist:
+        if distance[i[0]] < dist:
             continue
-
-        for i in [-1, 1, 2]:
-            if i == -1:
-                next_pos = now - 1
-            elif i == 1:
-                next_pos = now + 1
-            elif i == 2:
-                next_pos = now * 2
-
-            if 0 <= next_pos <= 100000 and dist + 1 < distance[next_pos]:
-                if i == 2:
-                    distance[next_pos] = dist  # 2배로 이동하는 경우 dist 값 증가 안 함
-                    heapq.heappush(queue, (dist, next_pos))
-                else:
-                    distance[next_pos] = dist + 1
-                    heapq.heappush(queue, (dist + 1, next_pos))
+        for i in graph[now]:
+            cost = dist + i[1]
+            if cost < distance[i[0]]:
+                distance[i[0]] = cost
+                heapq.heappush(queue, (cost, i[0]))
 
 
 djikstra(start)
-print(distance[end])
+
+for i in range(1, n + 1):
+    if distance[i] == INF:
+        print("INF")
+    else:
+        print(distance[i])
