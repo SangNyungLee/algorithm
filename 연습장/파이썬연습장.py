@@ -1,26 +1,47 @@
-import sys;
-import math;
-# n = int(sys.stdin.readline().rstrip())
-# arr = list(map(int, sys.stdin.readline().rstrip().split()))
-# m = int(sys.stdin.readline().rstrip())
-# arr2 = list(map(int, sys.stdin.readline().rstrip().split()))
+from collections import deque
 
-dic ={i: 0 for i in range(0, 246913)}
-for i in dic:
-    num = i
-    newA = int(math.sqrt(num))
-    cnt = 0
-    for i in range(2, newA+1):
-        if num%i == 0:
-            cnt += 1
-            break
-    if(cnt == 0 and i != 1):
-        dic[num] = 1
-    if(num > 1):
-        dic[num] = dic[num]+dic[num-1]
-while True:
-    a = int(input())
-    if a == 0:
-        break
-    else:
-        print(dic[a*2] - dic[a])
+land = [
+    [1, 0, 1, 0, 1, 1],
+    [1, 0, 1, 0, 0, 0],
+    [1, 0, 1, 0, 0, 1],
+    [1, 0, 0, 1, 0, 0],
+    [1, 0, 0, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0],
+    [1, 1, 1, 1, 1, 1],
+]
+
+
+def solution(land):
+    n = len(land)  # 세로 (5)
+    m = len(land[0])  # 가로 (8)
+    dx = [-1, 1, 0, 0]
+    dy = [0, 0, -1, 1]
+    result = [[0] for _ in range(m)]
+    visited = [[False] * m for _ in range(n)]
+    for i in range(n):
+        for j in range(m):
+            if land[i][j] == 1 and not visited[i][j]:
+                count = []
+                queue = deque()
+                queue.append((i, j))
+                count.append((i, j))
+                visited[i][j] = True
+                while queue:
+                    x, y = queue.popleft()
+                    for k in range(4):
+                        nx = x + dx[k]
+                        ny = y + dy[k]
+                        if nx < 0 or ny < 0 or nx >= n or ny >= m:
+                            continue
+                        if land[nx][ny] == 1 and not visited[nx][ny]:
+                            visited[nx][ny] = True
+                            count.append((nx, ny))
+                            queue.append((nx, ny))
+                cnt = len(count)
+                unique = set(y for x, y in count)
+                for g in unique:
+                    result[g][0] += cnt
+    return max(result)
+
+
+print(solution(land))

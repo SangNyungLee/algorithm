@@ -6,16 +6,16 @@ def solution(land):
     m = len(land[0])  # 가로 (8)
     dx = [-1, 1, 0, 0]
     dy = [0, 0, -1, 1]
-    result = []
-    for i in range(m):
-        visited = [[False] * (m) for _ in range(n)]
-        count = 0
-        for j in range(n):
-            if not visited[j][i] and land[j][i] == 1:
+    result = [[0] for _ in range(m)]
+    visited = [[False] * m for _ in range(n)]
+    for i in range(n):
+        for j in range(m):
+            if land[i][j] == 1 and not visited[i][j]:
+                count = []
                 queue = deque()
-                queue.append((j, i))
-                visited[j][i] = True
-                count += 1
+                queue.append((i, j))
+                count.append((i, j))
+                visited[i][j] = True
                 while queue:
                     x, y = queue.popleft()
                     for k in range(4):
@@ -25,8 +25,11 @@ def solution(land):
                             continue
                         if land[nx][ny] == 1 and not visited[nx][ny]:
                             visited[nx][ny] = True
-                            count += 1
+                            count.append((nx, ny))
                             queue.append((nx, ny))
-        result.append(count)
-
-    return max(result)
+                cnt = len(count)
+                unique = set(y for x, y in count)
+                for g in unique:
+                    result[g][0] += cnt
+    answer = max(result)
+    return answer[0]
