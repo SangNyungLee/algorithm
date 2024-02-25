@@ -1,37 +1,39 @@
 import sys
-import heapq
+from collections import deque
 
 input = sys.stdin.readline
 
-V, E = map(int, input().split())
-K = int(input().rstrip())
-graph = [[] for _ in range(V + 1)]
-for _ in range(E):
-    a, b, c = map(int, input().split())
-    graph[a].append((b, c))
-INF = int(1e9)
-distance = [INF] * (V + 1)
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
 
+t = int(input().rstrip())
+for _ in range(t):
+    m, n, k = map(int, input().split())
+    graph = [[0] * (n + 1) for _ in range(m + 1)]
 
-def djikstra(start):
-    queue = []
-    heapq.heappush(queue, (0, start))
-    distance[start] = 0
-    while queue:
-        dist, now = heapq.heappop(queue)
-        if distance[now] < dist:
-            continue
-        for i in graph[now]:
-            cost = dist + i[1]
-            if cost < distance[i[0]]:
-                distance[i[0]] = cost
-                heapq.heappush(queue, (cost, i[0]))
+    for i in range(k):
+        a, b = map(int, input().split())
+        graph[a][b] = 1
 
+    def bfs(x, y):
+        global result
+        queue = deque()
+        queue.append((x, y))
+        while queue:
+            x, y = queue.popleft()
+            for i in range(4):
+                nx = x + dx[i]
+                ny = y + dy[i]
+                if nx < 0 or ny < 0 or nx >= m or ny >= n:
+                    continue
+                if graph[nx][ny] == 1:
+                    graph[nx][ny] = 0
+                    queue.append((nx, ny))
+        return 1
 
-djikstra(K)
-
-for i in range(1, V + 1):
-    if distance[i] == INF:
-        print("INF")
-    else:
-        print(distance[i])
+    result = 0
+    for i in range(m + 1):
+        for j in range(n + 1):
+            if graph[i][j] == 1:
+                result += bfs(i, j)
+    print(result)
