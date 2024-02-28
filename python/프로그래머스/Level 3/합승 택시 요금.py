@@ -48,7 +48,7 @@ def solution(n, s, a, b, fares):
                 if cost < distance[i[0]]:
                     distance[i[0]] = cost
                     heapq.heappush(queue, (cost, i[0]))
-        result.append(distance)
+        result.append(distance[1::])
     MIN = 400000000
     for pp in range(1, n + 1):
         MIN = min(MIN, result[s - 1][pp] + result[pp - 1][a] + result[pp - 1][b])
