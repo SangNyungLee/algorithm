@@ -4,7 +4,7 @@ k, n = map(int, input().split())
 arr = []
 for i in range(k):
     arr.append(int(input()))
-start = 0
+start = 1
 end = max(arr)
 
 while start <= end:
@@ -15,9 +15,10 @@ while start <= end:
     for i in arr:
         count += i // mid
 
-    if count < n:
-        end = mid - 1
-    else:
+    if count >= n:
         start = mid + 1
+    else:
+        end = mid - 1
+    print("count", count)
 
 print(end)
