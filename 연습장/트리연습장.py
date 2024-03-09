@@ -1,13 +1,22 @@
-import sys
+k, n = map(int, input().split())
+arr = []
+for i in range(k):
+    arr.append(int(input()))
 
-input = sys.stdin.readline
-T = int(input())
-for test_case in range(T):
-    n = int(input())
-    arr = sorted([input().rstrip() for _ in range(n)])
-    for i in range(n - 1):
-        if arr[i] == arr[i + 1][: len(arr[i])]:
-            print("NO")
-            break
+arr.sort()
+start = 0
+end = max(arr)
+
+
+while start <= end:
+    count = 0
+    mid = (start + end) // 2
+    for i in arr:
+        count += i // mid
+    if count < n:
+        end = mid - 1
     else:
-        print("YES")
+        start = mid + 1
+
+print("end", end)
+print("start", start)
