@@ -1,18 +1,17 @@
-import sys
+arr = []
+n = len(arr)
+answer = [0, 0]
 
-input = sys.stdin.readline
 
-n = int(input().rstrip())
-count = 0
-while True:
-    if n % 5 != 0:
-        n -= 3
-        count += 1
-    elif n % 5 == 0:
-        count += n // 5
-        print(count)
-        break
+def press(start, end, n):
+    temp = arr[start][end]
+    for i in range(start, start + n):
+        for j in range(end, end + n):
+            if temp != arr[i][j]:
+                n //= 2
+                press(start, end, n)
+                press(start, end + n, n)
+                press(start + n, end, n)
 
-    if n < 0:
-        print(-1)
-        break
+
+press(0, 0, n)
