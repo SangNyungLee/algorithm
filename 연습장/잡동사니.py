@@ -1,17 +1,25 @@
-arr = []
-n = len(arr)
-answer = [0, 0]
+import sys
+
+input = sys.stdin.readline
+
+k, n = map(int, input().split())
+array = []
+for i in range(k):
+    array.append(int(input()))
 
 
-def press(start, end, n):
-    temp = arr[start][end]
-    for i in range(start, start + n):
-        for j in range(end, end + n):
-            if temp != arr[i][j]:
-                n //= 2
-                press(start, end, n)
-                press(start, end + n, n)
-                press(start + n, end, n)
+def binary_search(array, target, start, end):
+    while start <= end:
+        mid = (start + end) // 2
+        cnt = 0
+        for i in array:
+            qq = i // mid
+            cnt += qq
+        if cnt < target:
+            end = mid - 1
+        else:
+            start = mid + 1
+    print(end)
 
 
-press(0, 0, n)
+binary_search(array, n, 0, max(array))
