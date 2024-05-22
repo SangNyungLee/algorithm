@@ -1,24 +1,22 @@
-# k : 이미 가지고 있는 랜선의 개수
-# n : 필요한 랜선의 개수
-k, n = map(int, input().split())
-arr = []
-for i in range(k):
-    arr.append(int(input()))
-start = 1
-end = max(arr)
+def dfs(n, lst):
+    # 종료조건(n에 관련된) 처리 + 정답처리
+    if n == M:  # M개의 수열을 완성
+        ans.append(lst)
+        return
 
-while start <= end:
-    mid = (start + end) // 2
-    print("start", start, "end", end, "mid", mid)
-    # 중앙값에 맞춰서 자르기
-    count = 0
-    for i in arr:
-        count += i // mid
+    # 하부단계(함수) 호출
+    for j in range(1, N + 1):
+        if visited[j] == 0:  # 선택하지 않은 숫자인 경우 추가
+            visited[j] = 1
+            dfs(n + 1, lst + [j])
+            visited[j] = 0
 
-    if count >= n:
-        start = mid + 1
-    else:
-        end = mid - 1
-    print("count", count)
 
-print(end)
+N, M = map(int, input().split())
+ans = []  # 정답을 저장할 리스트
+visited = [0] * (N + 1)  # 중복확인을 위한 visited 배열
+
+dfs(0, [])
+
+for lst in ans:
+    print(*lst)
