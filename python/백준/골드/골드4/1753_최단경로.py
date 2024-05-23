@@ -15,14 +15,14 @@ for i in range(m):
 
 def djikstra(start):
     queue = []
-    heapq.heappush(queue, (0, start))
+    heapq.heappush(queue, (0, start))  # (거리, 정점)
     distance[start] = 0
     while queue:
         dist, now = heapq.heappop(queue)
         if distance[now] < dist:
             continue
-        for i in graph[now]:
-            cost = dist + i[1]
+        for i in graph[now]:  # i[0] => 정점, i[1] => 거리
+            cost = dist + i[1]  # cost = 정점 + 정점
             if cost < distance[i[0]]:
                 distance[i[0]] = cost
                 heapq.heappush(queue, (cost, i[0]))

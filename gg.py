@@ -1,25 +1,30 @@
-<<<<<<< HEAD
-=======
-def dfs(n, lst):
-    # 종료조건(n에 관련된) 처리 + 정답처리
-    if n == M:  # M개의 수열을 완성
-        ans.append(lst)
-        return
+import sys, heapq
 
-    # 하부단계(함수) 호출
-    for j in range(1, N + 1):
-        if visited[j] == 0:  # 선택하지 않은 숫자인 경우 추가
-            visited[j] = 1
-            dfs(n + 1, lst + [j])
-            visited[j] = 0
+input = sys.stdin.readline
+INF = int(1e9)
+v, e = map(int, input().split())
+k = int(input())
+graph = [[] for _ in range(v + 1)]
+distance = [INF] * (v + 1)
+for _ in range(e):
+    a, b, c = map(int, input().split())
+    graph[a].append((b, c))
 
 
-N, M = map(int, input().split())
-ans = []  # 정답을 저장할 리스트
-visited = [0] * (N + 1)  # 중복확인을 위한 visited 배열
+def dijkstra(start):
+    queue = []
+    heapq.heappush(queue, (0, start))
+    distance[start] = 0
+    while queue:
+        dist, now = heapq.heappop(queue)
+        if distance[now] < dist:
+            continue
+        for i in graph[now]:
+            cost = dist + i[1]
+            if cost < distance[i[0]]:
+                distance[i[0]] = cost
+                heapq.heappush(queue, (cost, i[0]))
 
-dfs(0, [])
 
-for lst in ans:
-    print(*lst)
->>>>>>> 4b747d5b9f3836d7b8d1369cc97b14f8de0bbbe5
+dijkstra(k)
+print(distance)
