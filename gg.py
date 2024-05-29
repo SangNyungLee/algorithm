@@ -1,14 +1,27 @@
-n = int(input())
-num = 0
-if n < 100:
-    print(n)
-else:
-    for i in range(100, n + 1):
-        if i == 1000:
-            continue
-        check = [0, 0, 0]
-        for a, b in enumerate(str(i)):
-            check[a] = int(b)
-        if (check[0] - check[1]) == (check[1] - check[2]):
-            num += 1
-    print(num + 99)
+def dfs(n, sm, add, sub, mul, div):
+    global mn, max
+    if sm < int(-1e9) or int(1e9) < sm:
+        return
+
+    if n == N:
+        mn = min(mn, sm)
+        mx = max(mx, sm)
+        return
+
+    if add > 0:
+        dfs(n + 1, sm + lst[n], add - 1, sub, mul, div)
+    if sub > 0:
+        dfs(n + 1, sm - lst[n], add, sub - 1, mul, div)
+    if mul > 0:
+        dfs(n + 1, sm * lst[n], add, sub, mul - 1, div)
+    if div > 0:
+        dfs(n + 1, int(sm / lst[n]), add, sub, mul, div - 1)
+
+
+N = int(input())
+lst = list(map(int, input().split()))
+add, sub, mul, div = map(int, input().split())
+
+mn, mx = int(1e9), int(-1e9)
+dfs(1, lst[0], add, sub, mul, div)
+print(mx, mn, sep="\n")
