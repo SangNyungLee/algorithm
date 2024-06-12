@@ -1,35 +1,45 @@
-from collections import deque
-n,m = map(int, input().split())
-graph = []
-visited = [[[0] *2 for _ in range(m)] for _ in range(n)]
-visited[0][0][0] = 1
+# import heapq
+# import sys
 
-for i in range(n):
-    graph.append(list(map(int, input())))
+# input = sys.stdin.readline
+# n = int(input())
+# queue = []
+# for _ in range(n):
+#     a, b = map(int, input().split())
+#     heapq.heappush(queue, (a, b))
+# a, b = max(queue)
+# room = []
+# start, end = heapq.heappop(queue)
+# room.append([end])
+# while queue:
+#     start, end = heapq.heappop(queue)
+#     flag = False
+#     for i in room:
+#         if i[0] <= start:
+#             i[0] = end
+#             flag = True
+#             break
+#     if not flag:
+#         room.append([end])
+# print(len(room))
 
-dx = [0, 0, 1, -1]
-dy = [1, -1, 0, 0]
+import heapq, sys
 
-def bfs(x,y,z):
-    queue = deque()
-    queue.append((x,y,z))
-    while queue:
-        a,b,c = queue.popleft()
-        if a == n -1 and b == m - 1:
-            return visited[a][b][c]
-        for i in range(4):
-            nx = a + dx[i]
-            ny = b + dy[i]
-            
-            if nx <0 or ny < 0 or nx >= n or ny >= m:
-                continue
-            if graph[nx][ny] == 1 and c == 0:
-                visited[nx][ny][1] = visited[a][b][0] + 1
-                queue.append((nx,ny,1))
-            
-            elif graph[nx][ny] == 0 and visited[nx][ny][c] == 0:
-                visited[nx][ny][c] = visited[a][b][c] + 1
-                queue.append((nx,ny,c))
-    return -1
+input = sys.stdin.readline
 
-print(bfs(0,0,0))
+n = int(input())
+queue = []
+for _ in range(n):
+    a, b = map(int, input().split())
+    heapq.heappush(queue, (a, b))
+room = []
+start, end = heapq.heappop(queue)
+heapq.heappush(room, end)
+while queue:
+    start, end = heapq.heappop(queue)
+    if room[0] <= start:
+        heapq.heappop(room)
+        heapq.heappush(room, end)
+    else:
+        heapq.heappush(room, end)
+print(len(room))
