@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class A04 {
+public class A04_Binary_Representation_1 {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int N = sc.nextInt();

@@ -3,7 +3,7 @@ import java.util.*;
 
 
 // A이상 B이하의 정수 중에서 100의 약수인 정수가 존재합니까? 해답을 Yes/No로 대답하시오
-public class B02 {
+public class B02_Divisor_Check {
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
