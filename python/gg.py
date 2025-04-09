@@ -1,11 +1,5 @@
-def rotate_left(lst): # 반시계 방향 회전 (-1)
-    lst.append(lst.popleft())
-
-def rotate_right(lst):
-     lst.appendleft(lst.pop()) # 시계 방향 회전
-
 from collections import deque
-wheel = [deque()] # 톱니바퀴 번호 1번 부터 시작
+wheel = [[]] # 톱니바퀴 번호 1번 부터 시작
 for _ in range(4):
     wheel.append(deque(map(int, input())))
 
@@ -17,6 +11,11 @@ for _ in range(K):
     arr.append((a,b)) # 톱니바퀴 번호, 회전 방향
 # 항상 순서는 맞닿은 부분이 서로 다른지 체크하고 돌리고 -> 시작 톱니바퀴 돌리기
 # (2) - (6 - 2) - (6 - 2) - (6)
+def rotate_left(lst): # 반시계 방향 회전 (-1)
+    lst.append(lst.popleft())
+
+def rotate_right(lst):
+     lst.appendleft(lst.pop()) # 시계 방향 회전
 while arr:
     wheel_number, rotate_direction = arr.popleft()
     # 1번 일 때는 6번이랑 맞는지 확인하기
@@ -47,6 +46,11 @@ while arr:
                     rotate_left(wheel[2])
                 else:
                     rotate_right(wheel[2])
+            elif wheel[2][2] == wheel[3][6] and wheel[3][2] != wheel[4][6]:
+                if rotate_direction == 1:
+                    rotate_left(wheel[2])
+                else:
+                    rotate_right(wheel[2])
         if rotate_direction == 1:
             rotate_right(wheel[1])
         else:
@@ -65,7 +69,7 @@ while arr:
                     rotate_right(wheel[3])
                     rotate_left(wheel[2])
                     rotate_right(wheel[1])
-            elif wheel[2][2] != wheel[3][6] and wheel[1][2] != wheel[2][6]:
+            elif wheel[2][2] != wheel[3][6] and wheel[1][2] == wheel[2][6]:
                 if rotate_direction == 1:
                     rotate_left(wheel[3])
                     rotate_right(wheel[2])
