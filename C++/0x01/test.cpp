@@ -32,6 +32,19 @@ int func4(int N){
     while (val * 2 <= N) val *= 2;
     return val;
 }
+
+void test(){
+    int n, x;
+    cin >> n >> x;
+    vector<int> arr(n);
+
+    for(int i = 0 ; i < n ; i++)
+        cin >> arr[i];
+    
+    for(int i = 0 ; i < n ; i++)
+        if (arr[i] < x) 
+            cout << arr[i] << " ";
+}
 int main() {
     cout << func1(16) << "\n";
     cout << func1(34567) << "\n";
@@ -55,4 +68,5 @@ int main() {
     cout << func4(5) << endl;
     cout << func4(97615282) << endl;
     cout << func4(1024) << endl;
+    test();
 }
